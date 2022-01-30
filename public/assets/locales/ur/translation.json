@@ -1,0 +1,19 @@
+{
+  "select_lang": "Select Language",
+  "welcome_to": "Welcome to Al Dhaid Municipality Portal.",
+  "Your_rating": "Your rating was",
+  "good_job": "Good Job",
+  "sorry": "Sorry!",
+  "select_emoji":"Please select an emoji first",
+  "dept": "Sections",
+  "select_dept": "Select department",
+  "phone_number":"Phone number",
+  "note":"Note",
+  "enter_note":"Please let us know your experience in the municipality",
+  "submit": "Submit",
+  "pissed_me": "pissed me off",
+  "good":"Good",
+  "very_good":"Very Good",
+  "like":"Like",
+  "enter_phone_note": "Please enter your phone number and let us know your experience in the municipality"
+}

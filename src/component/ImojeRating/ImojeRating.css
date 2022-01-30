@@ -1,0 +1,43 @@
+.imoj-box {
+  border-radius: 10px !important;
+  cursor: pointer !important;
+}
+.imo-div{
+  margin-right: 2.5% !important;
+  margin-left: 2.5% !important;
+  padding: 5px;
+  display: inline-block !important;
+  border-radius:20px;
+  cursor: pointer !important;
+}
+.imoj-box .imoj-img {
+  width: 65px !important;
+  height: 65px !important;
+  border-bottom: solid 1px #4d100a85 !important ;
+  cursor: pointer !important;
+  border-radius: 50% !important;
+  transition: all 0.3s ease;
+  display: block !important;
+}
+.imoj-box .imoj-img:active {
+  padding: 1px !important;
+  border-bottom: solid 1px #4d100a !important ;
+  border-radius: 50% !important;
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.imoj-box .imoj-img:focus {
+  border-bottom: solid 1px #4d100a !important ;
+  border-radius: 50% !important;
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.imoj-box .imoj-img:hover {
+  border-bottom: solid 1px #4d100a !important ;
+  border-radius: 50% !important;
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}

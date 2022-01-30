@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'Cairo';
+  src: local('Cairo'), url(../public/assets/fonts/Cairo-Regular.ttf) format('woff');
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
+}
+body {
+  background: #EEEEEE;
+  direction: rtl !important;
+  margin: 0;
+  font-family: 'Cairo',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'Cairo',
+  sans-serif;
+}
