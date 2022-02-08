@@ -2,7 +2,8 @@ import axios from "axios";
 import langService from "./services/langService";
 
 const api = ({ ...options }) => {
-  const api = axios.create({ baseURL: `http://nasihads-001-site9.etempurl.com/api/` })
+  //http://10.26.56.15:900
+  const api = axios.create({ baseURL: `https://localhost:5001/api/` })
   api.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
   api.defaults.headers.common["Consumer"] = "254321889";
   api.defaults.headers.common["Lang"] = langService().findByCode(langService().currentLangVal()).id;

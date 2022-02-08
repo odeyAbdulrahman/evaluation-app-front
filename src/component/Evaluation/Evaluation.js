@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from "react";
 import api from "../../core/axiosConfig";
 import langService from "../../core/services/langService";
-import { Route, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Evaluation = () => {
   const { t } = useTranslation();

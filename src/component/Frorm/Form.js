@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import getEmojes from "../../core/data/emojes";
 import langService from "../../core/services/langService";
 import evaluationModel from "../../core/models/evaluationModel";
-import { Route, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function Form() {
   const [departments, setDepartments] = useState([]);

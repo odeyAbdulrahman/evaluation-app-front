@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import { accountService } from '_services';
 
 export function jwtInterceptor() {
@@ -8,11 +7,9 @@ export function jwtInterceptor() {
         const account = accountService.accountValue;
         const isLoggedIn = account?.token;
         const isApiUrl = request.url.startsWith(process.env.REACT_APP_API_URL);
-
         if (isLoggedIn && isApiUrl) {
             request.headers.common.Authorization = `Bearer ${account.token}`;
         }
-
         return request;
     });
 }
