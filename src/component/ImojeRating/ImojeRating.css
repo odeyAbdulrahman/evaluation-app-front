@@ -3,8 +3,8 @@
   cursor: pointer !important;
 }
 .imo-div{
-  margin-right: 2.5% !important;
-  margin-left: 2.5% !important;
+  margin-right: 1.5% !important;
+  margin-left: 1.5% !important;
   padding: 5px;
   display: inline-block !important;
   border-radius:20px;
@@ -18,6 +18,11 @@
   border-radius: 50% !important;
   transition: all 0.3s ease;
   display: block !important;
+}
+.imoj-box label{
+  font-size: 80% !important;
+  font-weight: bold !important;
+  text-align: center !important;
 }
 .imoj-box .imoj-img:active {
   padding: 1px !important;

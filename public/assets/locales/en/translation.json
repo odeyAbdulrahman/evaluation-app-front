@@ -1,7 +1,7 @@
 {
   "select_lang": "Select Language",
   "department_name": "Department",
-  "welcome_to": "Welcome to Al Dhaid Municipality.",
+  "welcome_to": "Welcome to Al Dhaid City Municipality.",
   "Your_rating": "Your rating was",
   "good_job": "Good Job",
   "sorry": "Sorry!",
@@ -12,7 +12,7 @@
   "note":"Note",
   "enter_note":"Please let us know your experience in the municipality",
   "submit": "Submit",
-  "pissed_me": "pissed me off",
+  "pissed_me": "not satisfied",
   "good":"Good",
   "very_good":"Very Good",
   "like":"Like",

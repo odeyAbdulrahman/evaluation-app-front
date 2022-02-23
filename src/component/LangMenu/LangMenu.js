@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useRef } from "react";
 import './LangMenu.css';
-import { useDetectOutsideClick } from "./useDetectOutsideClick";
+import { useDetectOutsideClick } from "../../core/hooks/useDetectOutsideClick";
 import getLangs from "../../core/data/langs";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
@@ -20,7 +20,7 @@ function LangMenu() {
           <ul>
             {
              getLangs() && getLangs().map(({code, name, country_code}) => (
-              <li key={code}> <a onClick={() => {i18next.changeLanguage(code)}}> <span></span> {name} </a></li>     
+              <li key={code}> <a onClick={() => {onClick(); i18next.changeLanguage(code)}}> <span></span> {name} </a></li>     
              ))
             }
           </ul>

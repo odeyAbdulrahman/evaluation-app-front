@@ -9,18 +9,13 @@ import { useParams } from "react-router-dom";
 const Evaluation = () => {
   const { t } = useTranslation();
   const { departmentId } = useParams();
-
-  const [departmentName, setDepartmentName] = useState([]);
+  const [departmentInfo, setDepartmentInfo] = useState([]);
   //----------------- start: get methods -----------------//
   //Fetch data of departments on int
   useEffect(() => {
     async function getData() {
       departmentInfoAsync(departmentId).then((response) => {
-        setDepartmentName(langService().findCurrentText(
-          response.data.name,
-          response.data.nameAr,
-          response.data.nameUr
-        ));
+        setDepartmentInfo(response.data);
       });
     }
     getData();
@@ -30,6 +25,12 @@ const Evaluation = () => {
   const departmentInfoAsync = (id) => {
       return api({url: `Department/${id}`});
   };
+
+  const currentDepartmentName = () => langService().findCurrentText(
+    departmentInfo.name,
+    departmentInfo.nameAr,
+    departmentInfo.nameUr
+  )
   //----------------- end: get methods -----------------//
 
   return (
@@ -39,7 +40,7 @@ const Evaluation = () => {
       </div>
       <div className="mt-2 p-4 text-center">
         <h4 className="form-title">{t("welcome_to")}</h4>
-        <h5 className="form-sub-title"><samp>{t("department_name")}:</samp> <strong>{departmentName}</strong></h5>
+        <h5 className="form-sub-title"><samp>{t("department_name")}:</samp> <strong>{currentDepartmentName()}</strong></h5>
         <Form />
       </div>
     </div>

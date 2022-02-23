@@ -39,13 +39,13 @@ function Form() {
   const postAsync = async () => {
     try {
       if (evaluationModel.value) {
-        if (
-          evaluationModel.value === 44 &&
-          evaluationModel.phoneNumber === "" &&
-          evaluationModel.note === ""
-        ) {
-          Swal.fire(t("sorry"), t("enter_phone_note"), "error");
-        } else {
+        // if (
+         // evaluationModel.value === 44 &&
+         // evaluationModel.phoneNumber === "" &&
+         // evaluationModel.note === ""
+       // ) {
+          //Swal.fire(t("sorry"), t("enter_phone_note"), "error");
+        //} else {
           setSubmited(true);
           const data = {
             value: evaluationModel.value,
@@ -72,7 +72,7 @@ function Form() {
             clearForm("all");
             setSubmited(false);
           });
-        }
+      //  }
       } else Swal.fire(t("sorry"), t("select_emoji"), "error");
     } catch (err) {
       Swal.fire(t("sorry"), "" + err.message, "error");
