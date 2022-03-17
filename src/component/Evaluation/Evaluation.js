@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import LangMenu from "../LangMenu/LangMenu";
 import Form from "../Frorm/Form";
 import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from "react";
 import api from "../../core/axiosConfig";
 import langService from "../../core/services/langService";
+import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 
 const Evaluation = () => {
@@ -13,24 +15,34 @@ const Evaluation = () => {
   //----------------- start: get methods -----------------//
   //Fetch data of departments on int
   useEffect(() => {
-    async function getData() {
-      departmentInfoAsync(departmentId).then((response) => {
-        setDepartmentInfo(response.data);
-      });
+    try {
+      async function getData() {
+        departmentInfoAsync(departmentId).then((response) => {
+          setDepartmentInfo(response.data);
+        });
+      }
+      getData();
+    } catch {
+      Swal.fire(t("sorry"), t("sm_wrong"), "error");
     }
-    getData();
   }, []);
 
   //get data of Departments from api
   const departmentInfoAsync = (id) => {
-      return api({url: `Department/${id}`});
+    return api({ url: `Department/${id}` });
   };
 
-  const currentDepartmentName = () => langService().findCurrentText(
-    departmentInfo.name,
-    departmentInfo.nameAr,
-    departmentInfo.nameUr
-  )
+  const currentDepartmentName = () => {
+    try {
+     return langService().findCurrentText(
+        departmentInfo.name,
+        departmentInfo.nameAr,
+        departmentInfo.nameUr
+      );
+    } catch {
+      Swal.fire(t("sorry"), t("sm_wrong"), "error");
+    }
+  };
   //----------------- end: get methods -----------------//
 
   return (
@@ -40,8 +52,11 @@ const Evaluation = () => {
       </div>
       <div className="mt-2 p-4 text-center">
         <h4 className="form-title">{t("welcome_to")}</h4>
-        <h5 className="form-sub-title"><samp>{t("department_name")}:</samp> <strong>{currentDepartmentName()}</strong></h5>
-        <Form />
+        <h5 className="form-sub-title">
+          <samp>{t("department_name")}:</samp>{" "}
+          <strong>{currentDepartmentName()}</strong>
+        </h5>
+        <Form departmentId={departmentInfo.id} />
       </div>
     </div>
   );

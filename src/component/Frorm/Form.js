@@ -4,34 +4,35 @@ import api from "../../core/axiosConfig";
 import ImojeRating from "../ImojeRating/ImojeRating";
 import Swal from "sweetalert2";
 import { useTranslation } from "react-i18next";
-import getEmojes from "../../core/data/emojes";
+import emojesData from "../../core/data/emojesData";
 import langService from "../../core/services/langService";
 import evaluationModel from "../../core/models/evaluationModel";
-import { useParams } from "react-router-dom";
 
-function Form() {
-  const [departments, setDepartments] = useState([]);
-  const [employees, setEmployees] = useState([]);
+function Form({ departmentId }) {
+  const [subDepartments, setSubDepartments] = useState([]);
+  //const [employees, setEmployees] = useState([]);
   const [submited, setSubmited] = useState(false);
   //
   const [isSelected, setIsSelected] = useState(0);
   const [show, setShow] = useState(true);
   //
   const { t } = useTranslation();
-  const { departmentId } = useParams();
   //----------------- start: get methods -----------------//
   //Fetch data of departments on int
   useEffect(() => {
-    //async function getData() {
-    //  departmentsAsync().then((response) => setDepartments(response.data));
-    //}
-    //getData();
-  }, []);
+    if (departmentId) {
+      evaluationModel.departmentId = departmentId;
+      async function getData() {
+        subDepartmentsAsync(departmentId).then((response) => {
+          setSubDepartments(response.data);
+        });
+      }
+      getData();
+    }
+  }, [departmentId]);
   //get data of Departments from api
-  const departmentsAsync = () => api({ url: "Department" });
-  //get data of employees data from api
-  const employeesAsync = (deptId) =>
-    api({ url: `DepartmentEmployee/${deptId}` });
+  const subDepartmentsAsync = (deptId) =>
+    api({ url: `SubDepartment/${deptId}` });
   //----------------- end: get methods -----------------//
 
   //----------------- start: post & put & delete methods -----------------//
@@ -39,13 +40,7 @@ function Form() {
   const postAsync = async () => {
     try {
       if (evaluationModel.value) {
-        // if (
-         // evaluationModel.value === 44 &&
-         // evaluationModel.phoneNumber === "" &&
-         // evaluationModel.note === ""
-       // ) {
-          //Swal.fire(t("sorry"), t("enter_phone_note"), "error");
-        //} else {
+        if (evaluationModel.departmentId) {
           setSubmited(true);
           const data = {
             value: evaluationModel.value,
@@ -53,11 +48,11 @@ function Form() {
             note: evaluationModel.note,
             userId: evaluationModel.userId,
             departmentId: departmentId,
+            SubDepartmentId: evaluationModel.subDepartmentId,
           };
-
-          api({url:"Evaluation", method: 'post', data}).then((response) => {
+          api({ url: "Evaluation", method: "post", data }).then((response) => {
             if (response.data.code === 200) {
-              const t_name = getEmojes().find(
+              const t_name = emojesData.find(
                 (item) => item.id === evaluationModel.value
               ).t_name;
               Swal.fire(
@@ -68,11 +63,12 @@ function Form() {
                   t(t_name),
                 "success"
               );
-            } else Swal.fire(t("sorry"), "" + response.data.description, "error");
+            } else
+              Swal.fire(t("sorry"), "" + response.data.description, "error");
             clearForm("all");
             setSubmited(false);
           });
-      //  }
+        } else Swal.fire(t("sorry"), t("select_dept"), "error");
       } else Swal.fire(t("sorry"), t("select_emoji"), "error");
     } catch (err) {
       Swal.fire(t("sorry"), "" + err.message, "error");
@@ -101,26 +97,22 @@ function Form() {
   //----------------- end: post & put & delete methods -----------------//
   return (
     <>
-      <div className="form-group mt-4">
-        {/*
-         <h4 className="small" htmlFor="exampleInputEmail1">
-          {t("dept")}
+      <div className="form-group mt-4" hidden={!subDepartments.length}>
+        <h4 className="small" htmlFor="exampleInputEmail1">
+          {t("subDepartment_name")}
         </h4>
         <select
-          key="departmentId"
+          key="subDepartmentId"
           className="form-control"
           id="exampleFormControlSelect1"
           onChange={async (e) => {
-            evaluationModel.departmentId = e.target.selectedOptions[0].value;
-            employeesAsync(e.target.selectedOptions[0].value).then((response) => {
-              setEmployees(response.data);
-            });
+            evaluationModel.subDepartmentId = e.target.selectedOptions[0].value;
           }}
         >
-          <option value="">--{t("select_dept")}--</option>
-          {departments &&
-            departments.map((dept) => (
-              <option value={dept.id}>
+          <option value="">--{t("subDepartment_name")}--</option>
+          {subDepartments &&
+            subDepartments.map((dept) => (
+              <option key={dept.id} value={dept.id}>
                 {langService().findCurrentText(
                   dept.name,
                   dept.nameAr,
@@ -128,25 +120,7 @@ function Form() {
                 )}
               </option>
             ))}
-        </select> 
-          */}
-      </div>
-      <div className="form-group mt-4">
-        {/* <h4 className="small" htmlFor="exampleInputEmail1">الموظفين</h4>
-          <select
-            key="userId"
-            className="form-control"
-            id="exampleFormControlSelect1"
-            onChange={(e) => {
-              setEvaluationModel(evaluationModel.userId = e.target.selectedOptions[0].value);
-            }}
-          >
-          <option value="">--select emp--</option>
-          {employees &&
-            employees.map((emp) => (
-              <option value={emp.userId}>{emp.employeeName}</option>
-            ))}
-        </select>*/}
+        </select>
       </div>
       <ImojeRating setShowData={setShowData} selected={isSelected} />
       <div className="form-group mt-4" hidden={show}>

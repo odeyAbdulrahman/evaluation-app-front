@@ -15,7 +15,7 @@ function App() {
           <Route path="/:departmentId">
             <Evaluation />
           </Route>
-          <Route path="*">
+          <Route exact path="*">
             <NotFound />
           </Route>
         </Switch>

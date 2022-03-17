@@ -2,7 +2,7 @@
 import React from "react";
 import "./ImojeRating.css";
 import { useTranslation } from "react-i18next";
-import getEmojes from "../../core/data/emojes";
+import emojesData from "../../core/data/emojesData";
 
 function ImojeRating({ setShowData, selected }) {
   const { t } = useTranslation();
@@ -10,8 +10,8 @@ function ImojeRating({ setShowData, selected }) {
   return (
     <>
       <div className="d-flex flex-row justify-content-center imoj-box mt-2">
-        {getEmojes() &&
-          getEmojes().map((item) => (
+        {emojesData &&
+          emojesData.map((item) => (
             <div
              key={item.id}
               className="imo-div"

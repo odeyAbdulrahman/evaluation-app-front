@@ -3,6 +3,7 @@ const evaluationModel = {
     phoneNumber: '',
     note: '',
     userId: '',
-    departmentId: 0,
+    departmentId: '',
+    subDepartmentId: '',
 }
 export default evaluationModel;
