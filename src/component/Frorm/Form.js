@@ -63,6 +63,9 @@ function Form({ departmentId }) {
                   t(t_name),
                 "success"
               );
+              setTimeout(() => {
+                Swal.close()
+              },3000)
             } else
               Swal.fire(t("sorry"), "" + response.data.description, "error");
             clearForm("all");
@@ -98,9 +101,6 @@ function Form({ departmentId }) {
   return (
     <>
       <div className="form-group mt-4" hidden={!subDepartments.length}>
-        <h4 className="small" htmlFor="exampleInputEmail1">
-          {t("subDepartment_name")}
-        </h4>
         <select
           key="subDepartmentId"
           className="form-control"
@@ -109,7 +109,6 @@ function Form({ departmentId }) {
             evaluationModel.subDepartmentId = e.target.selectedOptions[0].value;
           }}
         >
-          <option value="">--{t("subDepartment_name")}--</option>
           {subDepartments &&
             subDepartments.map((dept) => (
               <option key={dept.id} value={dept.id}>

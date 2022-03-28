@@ -53,7 +53,6 @@ const Evaluation = () => {
       <div className="mt-2 p-4 text-center">
         <h4 className="form-title">{t("welcome_to")}</h4>
         <h5 className="form-sub-title">
-          <samp>{t("department_name")}:</samp>{" "}
           <strong>{currentDepartmentName()}</strong>
         </h5>
         <Form departmentId={departmentInfo.id} />
