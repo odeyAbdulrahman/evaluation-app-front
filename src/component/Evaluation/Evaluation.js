@@ -46,7 +46,7 @@ const Evaluation = () => {
   //----------------- end: get methods -----------------//
 
   return (
-    <div className="card mt-5 pb-5">
+    <div className="card mtb-18 pb-5">
       <div className="d-flex flex-row justify-content-between p-3 adiv text-white">
         <LangMenu />
       </div>

@@ -1,9 +1,12 @@
 .card {
-  width: 500px;
+  width: 650px;
   border: none;
   border-radius: 15px;
 }
-
+.mtb-18{
+  margin-top: 12rem !important; 
+  margin-bottom: 12rem !important; 
+}
 .adiv {
   background: #f7f5ed;
   color: #4d100a !important;

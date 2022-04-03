@@ -6,14 +6,20 @@ import Swal from "sweetalert2";
 import { useTranslation } from "react-i18next";
 import emojesData from "../../core/data/emojesData";
 import langService from "../../core/services/langService";
-import evaluationModel from "../../core/models/evaluationModel";
+import {evaluationModel, clearEvaluationModel} from "../../core/models/evaluationModel";
 
 function Form({ departmentId }) {
   const [subDepartments, setSubDepartments] = useState([]);
-  //const [employees, setEmployees] = useState([]);
+
   const [submited, setSubmited] = useState(false);
-  //
   const [isSelected, setIsSelected] = useState(0);
+
+  const [hasSub, setHasSub] = useState(false);
+  const [selectSub, setSelectSub] = useState(false);
+
+  const [phone, setPhone] = useState('');
+  const [note, setNote] = useState('');
+
   const [show, setShow] = useState(true);
   //
   const { t } = useTranslation();
@@ -23,16 +29,18 @@ function Form({ departmentId }) {
     if (departmentId) {
       evaluationModel.departmentId = departmentId;
       async function getData() {
-        subDepartmentsAsync(departmentId).then((response) => {
-          setSubDepartments(response.data);
-        });
+        subDepartmentsAsync(departmentId);
       }
       getData();
     }
   }, [departmentId]);
   //get data of Departments from api
-  const subDepartmentsAsync = (deptId) =>
-    api({ url: `SubDepartment/${deptId}` });
+  const subDepartmentsAsync = (deptId) => api({ url: `SubDepartment/${deptId}` }).then((response) => {
+    if(response.data.length > 0){
+      setSubDepartments(response.data);
+      setHasSub(true)
+    }
+   });;
   //----------------- end: get methods -----------------//
 
   //----------------- start: post & put & delete methods -----------------//
@@ -41,36 +49,45 @@ function Form({ departmentId }) {
     try {
       if (evaluationModel.value) {
         if (evaluationModel.departmentId) {
-          setSubmited(true);
-          const data = {
-            value: evaluationModel.value,
-            phoneNumber: evaluationModel.phoneNumber,
-            note: evaluationModel.note,
-            userId: evaluationModel.userId,
-            departmentId: departmentId,
-            SubDepartmentId: evaluationModel.subDepartmentId,
-          };
-          api({ url: "Evaluation", method: "post", data }).then((response) => {
-            if (response.data.code === 200) {
-              const t_name = emojesData.find(
-                (item) => item.id === evaluationModel.value
-              ).t_name;
-              Swal.fire(
-                t("good_job"),
-                "" +
-                  response.data.description +
-                  `<br><strong>${t("your_rating")} : </strong>` +
-                  t(t_name),
-                "success"
-              );
-              setTimeout(() => {
-                Swal.close()
-              },3000)
-            } else
-              Swal.fire(t("sorry"), "" + response.data.description, "error");
-            clearForm("all");
-            setSubmited(false);
-          });
+          console.log(hasSub)
+          console.log(selectSub)
+          if(hasSub === true && selectSub === false)
+          {
+            Swal.fire(t("sorry"), t("select_dept"), "error");
+          }
+          else
+          {
+            setSubmited(true);
+            const data = {
+              value: evaluationModel.value,
+              phoneNumber: evaluationModel.phoneNumber,
+              note: evaluationModel.note,
+              userId: evaluationModel.userId,
+              departmentId: departmentId,
+              SubDepartmentId: evaluationModel.subDepartmentId,
+            };
+            api({ url: "Evaluation", method: "post", data }).then((response) => {
+              if (response.data.code === 200) {
+                const t_name = emojesData.find(
+                  (item) => item.id === evaluationModel.value
+                ).t_name;
+                Swal.fire(
+                  t("good_job"),
+                  "" +
+                    response.data.description +
+                    `<br><strong>${t("your_rating")} : </strong>` +
+                    t(t_name),
+                  "success"
+                );
+                setTimeout(() => {
+                  Swal.close()
+                },3000)
+              } else
+                Swal.fire(t("sorry"), "" + response.data.description, "error");
+              clearForm();
+              setSubmited(false);
+            });
+          }
         } else Swal.fire(t("sorry"), t("select_dept"), "error");
       } else Swal.fire(t("sorry"), t("select_emoji"), "error");
     } catch (err) {
@@ -82,20 +99,15 @@ function Form({ departmentId }) {
     setShow(bool);
     setIsSelected(val);
     evaluationModel.value = val;
-    clearForm("");
+
   };
   //
-  const clearForm = (setType) => {
-    if (setType === "all") {
+  const clearForm = () => {
       setShow(true);
       setIsSelected(0);
-      evaluationModel.value = 0;
-      evaluationModel.phoneNumber = "";
-      evaluationModel.note = "";
-    } else {
-      evaluationModel.phoneNumber = "";
-      evaluationModel.note = "";
-    }
+      setPhone('')
+      setNote('')
+      clearEvaluationModel()
   };
   //----------------- end: post & put & delete methods -----------------//
   return (
@@ -107,8 +119,11 @@ function Form({ departmentId }) {
           id="exampleFormControlSelect1"
           onChange={async (e) => {
             evaluationModel.subDepartmentId = e.target.selectedOptions[0].value;
+            setSelectSub(true)
           }}
+          defaultValue=""
         >
+          <option hidden value=''>{t("select_dept")}</option>
           {subDepartments &&
             subDepartments.map((dept) => (
               <option key={dept.id} value={dept.id}>
@@ -130,10 +145,13 @@ function Form({ departmentId }) {
           key="phoneNumber"
           type="number"
           className="form-control"
-          placeholder={t("enter_phone_number")}
+          placeholder={t("phone_number")}
           onChange={(e) => {
             evaluationModel.phoneNumber = e.target.value;
+            setPhone(e.target.value)
           }}
+          value={phone}
+          max="10"
         ></input>
       </div>
       <div className="form-group mt-4" hidden={show}>
@@ -147,7 +165,9 @@ function Form({ departmentId }) {
           placeholder={t("enter_note")}
           onChange={(e) => {
             evaluationModel.note = e.target.value;
+            setNote(evaluationModel.note)
           }}
+          value={note}
         ></textarea>
       </div>
       <div className="mt-2">
