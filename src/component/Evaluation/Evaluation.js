@@ -25,7 +25,7 @@ const Evaluation = () => {
     } catch {
       Swal.fire(t("sorry"), t("sm_wrong"), "error");
     }
-  }, []);
+  }, [departmentId]);
 
   //get data of Departments from api
   const departmentInfoAsync = (id) => {
@@ -46,7 +46,7 @@ const Evaluation = () => {
   //----------------- end: get methods -----------------//
 
   return (
-    <div className="card mtb-18 pb-5">
+    <div className="card pb-5">
       <div className="d-flex flex-row justify-content-between p-3 adiv text-white">
         <LangMenu />
       </div>

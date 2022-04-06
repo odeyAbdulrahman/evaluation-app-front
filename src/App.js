@@ -7,7 +7,7 @@ import NotFound from "./component/NotFound/NotFound";
 function App() {
   return (
     <Router>
-      <div className="container d-flex justify-content-center">
+      <div className="container d-flex mtb-7 justify-content-center">
         <Switch>
           <Route exact path="/">
             <Evaluation />

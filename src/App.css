@@ -1,11 +1,16 @@
 .card {
-  width: 650px;
+  width: 75% !important;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
   border: none;
   border-radius: 15px;
 }
-.mtb-18{
-  margin-top: 12rem !important; 
-  margin-bottom: 12rem !important; 
+.mtb-7{
+  margin-top: 5rem !important; 
+  margin-bottom: 5rem !important; 
 }
 .adiv {
   background: #f7f5ed;

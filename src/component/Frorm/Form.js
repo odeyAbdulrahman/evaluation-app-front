@@ -29,18 +29,18 @@ function Form({ departmentId }) {
     if (departmentId) {
       evaluationModel.departmentId = departmentId;
       async function getData() {
-        subDepartmentsAsync(departmentId);
+        subDepartmentsAsync(departmentId).then((response) => {
+          if(response.data.length > 0){
+            setSubDepartments(response.data);
+            setHasSub(true)
+          }
+         });
       }
       getData();
     }
   }, [departmentId]);
   //get data of Departments from api
-  const subDepartmentsAsync = (deptId) => api({ url: `SubDepartment/${deptId}` }).then((response) => {
-    if(response.data.length > 0){
-      setSubDepartments(response.data);
-      setHasSub(true)
-    }
-   });;
+  const subDepartmentsAsync = (deptId) => api({ url: `SubDepartment/${deptId}` })
   //----------------- end: get methods -----------------//
 
   //----------------- start: post & put & delete methods -----------------//
@@ -81,6 +81,7 @@ function Form({ departmentId }) {
                 );
                 setTimeout(() => {
                   Swal.close()
+                  window.location.reload(false);
                 },3000)
               } else
                 Swal.fire(t("sorry"), "" + response.data.description, "error");
